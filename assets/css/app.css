@@ -36,12 +36,13 @@ form input[type="text"]:focus {
  @apply focus:outline-none focus:border-emLavander focus:ring-0
 }
 
-#gist_markup_text {
+.textarea {
  @apply bg-emDark-dark font-brand font-regular text-white border-white text-xs h-[300px] resize-none;
  border-top: none;
 }
 
-#gist_markup_text {
+.textarea:focus,
+#gist-textarea:focus {
  @apply focus:outline-none focus:border-white focus:ring-0
 }
 
@@ -54,7 +55,13 @@ form input[type="text"]:focus {
 }
 
 .line-numbers {
- @apply border border-white font-brand font-regular text-xs text-emDark-light bg-emDark-dark h-[300px] w-[54px] text-right
+ @apply border border-white font-brand font-regular text-xs text-emDark-light bg-emDark-dark h-[300px] w-[54px] text-right overflow-hidden resize-none;
+ border-right: none;
+ border-top: none;
+}
+
+.line-numbers:focus {
+ @apply focus:outline-none focus:border-white focus:ring-0;
 }
 
 .em-gradient {

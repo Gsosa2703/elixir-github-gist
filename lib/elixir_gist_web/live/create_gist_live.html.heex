@@ -15,14 +15,17 @@
    </div>
 
    <div class="flex w-full">
-    <textarea id="line-numbers" readonly></textarea>
+    <textarea id="line-numbers" class="line-numbers rounded-bl-md" readonly>
+     <%= "1\n" %>
+    </textarea>
 
-    <.input class="w-full rounded-b-md textarea" field={@form[:markup_text]} placeholder="Insert your code here..."
-     autocomplete="off" phx-debounce="blur" />
-
+    <div class="flex-grow">
+     <.input id="gist-textarea" field={@form[:markup_text]} type="textarea" phx-hook="UpdateLineNumbers"
+      class="w-full rounded-br-md textarea border-l-0" placeholder="Insert your code here..." autocomplete="off"
+      spellcheck="false" phx-debounce="blur" />
+    </div>
    </div>
-   <!-- <textarea class="w-full rounded-b-md textarea" value={@form[:markup_text].value || "" }
-    placeholder="Insert your code here..." autocomplete="off" spellcheck="false" /> -->
+
   </div>
   <div class="flex justify-end">
    <.button class="create-button" phx-disable-with="Creating..."> Create Gist
