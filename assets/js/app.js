@@ -28,13 +28,19 @@ let Hooks = {};
 
 Hooks.UpdateLineNumbers = {
   mounted() {
+    const lineNumberText = document.querySelector("#line-numbers")
+
     this.el.addEventListener("input", () => {
       this.updateLineNumbers()
     })
 
     this.el.addEventListener("scroll", () => {
-      const lineNumberText = document.querySelector("#line-numbers")
       lineNumberText.scrollTop = this.el.scrollTop
+    })
+
+    this.handleEvent("clear-textareas", () => {
+      this.el.value = ''
+      lineNumberText.value = '1\n'
     })
 
     this.updateLineNumbers()
@@ -47,6 +53,7 @@ Hooks.UpdateLineNumbers = {
     lineNumberText.value = numbers
   }
 };
+
 
 let liveSocket = new LiveSocket("/live", Socket, {
   longPollFallbackMs: 2500,
