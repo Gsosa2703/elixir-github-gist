@@ -64,6 +64,23 @@ form input[type="text"]:focus {
  @apply focus:outline-none focus:border-white focus:ring-0;
 }
 
+.syntax-area {
+ @apply bg-emSyntax border text-xs border-white h-auto;
+ border-top: none;
+ border-left: none;
+}
+
+.syntax-numbers {
+ @apply border border-white font-brand py-[28px] text-xs text-emDark-light bg-emSyntax h-auto w-[54px] text-right resize-none overflow-hidden;
+ border-right: none;
+ border-top: none;
+}
+
+.syntax-numbers:focus {
+ @apply focus:outline-none focus:border-white focus:ring-0;
+}
+
+
 .em-gradient {
  background-image: linear-gradient(to bottom, #631A61, #551653, #340E33, #010101);
  height: 225px;
