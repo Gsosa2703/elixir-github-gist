@@ -28,8 +28,8 @@ let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("
 
 let Hooks = {};
 
-function updateLineNumbers(value) {
-  const lineNumberText = document.querySelector("#line-numbers")
+function updateLineNumbers(value, element_id = "#line-numbers") {
+  const lineNumberText = document.querySelector(element_id)
   if (!lineNumberText) return;
   const lines = value.split("\n");
   const numbers = lines.map((_, index) => index + 1).join("\n") + "\n"
@@ -45,7 +45,7 @@ Hooks.Highlight = {
       codeBlock.classList.add(`language-${this.getSyntaxType(name)}`);
       trimed = this.trimCodeBlock(codeBlock)
       hljs.highlightElement(trimed);
-      updateLineNumbers(trimed.textContent)
+      updateLineNumbers(trimed.textContent, "#syntax-numbers")
     }
   },
   getSyntaxType(name) {
@@ -107,6 +107,36 @@ Hooks.UpdateLineNumbers = {
     updateLineNumbers(this.el.value)
   },
 };
+
+Hooks.CopyToClipboard = {
+  mounted() {
+    this.el.addEventListener("click", e => {
+      const textToCopy = this.el.getAttribute('data-clipboard-gist');
+      if (textToCopy) {
+        navigator.clipboard.writeText(textToCopy).then(() => {
+          console.log("Gist coopied to clickboard")
+        }).catch((err) => {
+          console.error('Failed to copy text', err)
+        })
+      }
+    })
+  }
+}
+
+Hooks.ToggleEdit = {
+  mounted() {
+    this.el.addEventListener("click", e => {
+      let edit = document.getElementById("edit-section");
+      let syntax = document.getElementById("syntax-section");
+
+      if (edit && syntax) {
+        edit.style.display = "block";
+        syntax.style.display = "none";
+      }
+
+    })
+  }
+}
 
 
 let liveSocket = new LiveSocket("/live", Socket, {
