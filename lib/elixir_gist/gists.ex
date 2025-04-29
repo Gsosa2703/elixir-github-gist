@@ -19,7 +19,9 @@ defmodule ElixirGist.Gists do
 
   """
   def list_gists do
-    Repo.all(Gist)
+    Gist
+    |> order_by(desc: :updated_at)
+    |> Repo.all()
   end
 
   @doc """
@@ -72,7 +74,7 @@ defmodule ElixirGist.Gists do
   def update_gist(%User{} = user, attrs) do
     gist = Repo.get!(Gist, attrs["id"])
 
-    if(user.id === gist.user_id) do
+    if user.id == gist.user_id do
       gist
       |> Gist.changeset(attrs)
       |> Repo.update()
@@ -167,8 +169,6 @@ defmodule ElixirGist.Gists do
     |> Repo.insert()
   end
 
-  @spec update_saved_gist(SavedGist.t(), map()) ::
-          {:ok, SavedGist.t()} | {:error, Ecto.Changeset.t()}
   @doc """
   Updates a saved_gist.
 
