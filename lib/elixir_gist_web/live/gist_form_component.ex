@@ -21,13 +21,19 @@ defmodule ElixirGistWeb.GistFormComponent do
           />
           <div>
             <div class="flex p-2 items-center bg-emDark rounded-t-md border">
-              <div class="w-[300px] mb-2">
+              <div class="mb-2 flex items-center w-full">
                 <.input
                   field={@form[:name]}
                   placeholder="Filename including extension..."
                   autocomplete="off"
                   phx-debounce="blur"
+                  class="w-[400px]"
                 />
+                <span class="pl-4 text-white text-xs">
+                  You must specify the file extension, e.g., <code>file.js</code>.
+                  Supported file types: <code>.js</code>, <code>.html</code>, <code>.ex</code>, <code>.heex</code>, <code>.json</code>, <code>.text</code>.
+                  If you don't provide any extension, the default will be <strong>Elixir</strong>.
+                </span>
               </div>
             </div>
             <div id="gist-wrapper" class="flex w-full" phx-update="ignore">
