@@ -77,6 +77,7 @@ defmodule ElixirGist.Accounts do
   def register_user(attrs) do
     %User{}
     |> User.registration_changeset(attrs)
+    |> Ecto.Changeset.change(%{confirmed_at: DateTime.truncate(DateTime.utc_now(), :second)})
     |> Repo.insert()
   end
 

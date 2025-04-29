@@ -25,9 +25,11 @@ defmodule ElixirGistWeb.AllGistsLive do
         <div class="flex items-center">
           <img src="/images/user-image.svg" alt="Profile Image" class="rounded-full w-8 h-8 mb-6" />
           <div class="flex flex-col ml-4">
-            <div class="font-bold text-base text-emLavender-dark">
-              {@gist.user_id} <span class="text-white">/</span>{@gist.name}
-            </div>
+            <a href={~p"/gist?#{[id: @gist]}"}>
+              <div class="font-bold text-base text-emLavender-dark">
+                {@gist.user_id} <span class="text-white">/</span>{@gist.name}
+              </div>
+            </a>
             <div class="font-bold text-white text-lg">
               {DateFormat.get_relative_time(@gist.updated_at)}
             </div>

@@ -42,6 +42,7 @@ defmodule ElixirGist.Accounts.User do
     |> cast(attrs, [:email, :password])
     |> validate_email(opts)
     |> validate_password(opts)
+    |> put_change(:confirmed_at, DateTime.truncate(DateTime.utc_now(), :second))
   end
 
   defp validate_email(changeset, opts) do
