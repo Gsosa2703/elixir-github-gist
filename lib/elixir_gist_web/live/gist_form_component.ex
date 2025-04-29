@@ -1,6 +1,5 @@
 defmodule ElixirGistWeb.GistFormComponent do
   use ElixirGistWeb, :live_component
-  import Phoenix.HTML.Form
 
   alias ElixirGist.{Gists, Gists.Gist}
 
@@ -13,51 +12,46 @@ defmodule ElixirGistWeb.GistFormComponent do
     <div>
       <.form for={@form} phx-submit="create" phx-change="validate" phx-target={@myself}>
         <div class="justify-center px-28 w-full space-y-4 mb-10">
+          <.input type="hidden" field={@form[:id]} value={@id} />
           <.input
             field={@form[:description]}
             placeholder="Gist description.."
             autocomplete="off"
-            class="input-text"
             phx-debounce="blur"
           />
           <div>
-            <div class=" flex p-2 items-center bg-emDark rounded-t-md border">
+            <div class="flex p-2 items-center bg-emDark rounded-t-md border">
               <div class="w-[300px] mb-2">
                 <.input
                   field={@form[:name]}
-                  class="input-text"
                   placeholder="Filename including extension..."
                   autocomplete="off"
                   phx-debounce="blur"
                 />
               </div>
             </div>
-
-            <div class="flex w-full">
-              <textarea id="syntax-numbers" class="line-numbers rounded-bl-md" readonly>
-            <%= "1\n" %>
-            </textarea>
-
+            <div id="gist-wrapper" class="flex w-full" phx-update="ignore">
+              <textarea id="line-numbers" class="line-numbers rounded-bl-md" readonly>
+          <%= "1\n" %>
+        </textarea>
               <div class="flex-grow">
                 <.input
-                  id="gist-textarea"
-                  field={@form[:markup_text]}
                   type="textarea"
-                  phx-hook="UpdateLineNumbers"
-                  class="w-full rounded-br-md textarea border-l-0"
-                  placeholder="Insert your code here..."
+                  field={@form[:markup_text]}
+                  class="textarea w-full rounded-br-md"
+                  placeholder="Insert code..."
                   autocomplete="off"
-                  spellcheck="false"
                   phx-debounce="blur"
+                  phx-hook="UpdateLineNumbers"
                 />
               </div>
             </div>
           </div>
           <div class="flex justify-end">
             <%= if @id == :new do %>
-              <.button class="create-button" phx-disable-with="Creating...">Create Gist</.button>
+              <.button class="create_button" phx-disable-with="Creating...">Create gist</.button>
             <% else %>
-              <.button class="create-button" phx-disable-with="Updating...">Update Gist</.button>
+              <.button class="create_button" phx-disable-with="Updating...">Update gist</.button>
             <% end %>
           </div>
         </div>
@@ -76,7 +70,7 @@ defmodule ElixirGistWeb.GistFormComponent do
   end
 
   def handle_event("create", %{"gist" => params}, socket) do
-    if is_nil(params["id"]) do
+    if params["id"] == "new" do
       create_gist(params, socket)
     else
       update_gist(params, socket)
@@ -99,7 +93,7 @@ defmodule ElixirGistWeb.GistFormComponent do
   defp update_gist(params, socket) do
     case Gists.update_gist(socket.assigns.current_user, params) do
       {:ok, gist} ->
-        {:noreply, push_patch(socket, to: ~p"/gist?#{[id: gist]}")}
+        {:noreply, push_navigate(socket, to: ~p"/gist?#{[id: gist]}")}
 
       {:error, message} ->
         socket = put_flash(socket, :error, message)

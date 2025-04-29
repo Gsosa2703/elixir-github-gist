@@ -9,17 +9,16 @@ defmodule ElixirGistWeb.CreateGistLive do
 
   def render(assigns) do
     ~H"""
-    <div class="flex items-center justify-center em-gradient">
+    <div class="em-gradient flex items-center justify-center">
       <h1 class="font-brand font-bold text-3xl text-white">
-        Instatly share Elixir code, notes and snippets.
+        Instantly share Elixir code, notes, and snippets.
       </h1>
     </div>
-
     <.live_component
       module={GistFormComponent}
       id={:new}
-      current_user={@current_user}
       form={to_form(Gists.change_gist(%Gist{}))}
+      current_user={@current_user}
     />
     """
   end
