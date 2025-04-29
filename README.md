@@ -9,10 +9,9 @@ A lightweight Phoenix LiveView app for developers to create and share small code
 
 ## 🚀 Features
 
-- User registration and authentication (no email confirmation required).
+- User registration and authentication.
 - Create, edit, and view public code snippets (gists).
 - Support for multiple file types: `.ex`, `.heex`, `.js`, `.html`, `.json`, `.text`.
-- Mobile-friendly responsive design.
 - Deployed with Gigalixir (Production-ready).
 
 ---
